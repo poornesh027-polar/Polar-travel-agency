@@ -115,8 +115,13 @@ export const ReceiptScannerModal: React.FC<ReceiptScannerModalProps> = ({
         }),
       });
 
-      const resData = await response.json();
-      const parsed = resData.data;
+      let parsed: any = null;
+      if (response.ok) {
+        const resData = await response.json();
+        parsed = resData.data;
+      } else {
+        throw new Error('Static host: fallback to client OCR');
+      }
 
       if (parsed) {
         setMerchant(parsed.merchant || 'Sample Merchant');
