@@ -37,6 +37,7 @@ jobs:
 
       - name: Build application
         run: npm run build
+        env:BASE_URL: /Polar-travel-agency/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
