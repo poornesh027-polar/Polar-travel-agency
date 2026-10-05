@@ -1,0 +1,6 @@
+{
+  "name": "Wayfare Smart Travel & Expense",
+  "description": "Intelligent receipt scanning, multi-currency corporate travel expense management, mileage tracking, and automated policy auditing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

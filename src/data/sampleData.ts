@@ -1,0 +1,323 @@
+import { Trip, ExpenseItem, PolicyRule } from '../types/expense';
+
+export const INITIAL_TRIPS: Trip[] = [
+  {
+    id: 'trip-tokyo-2026',
+    name: 'Tokyo AI & Cloud Summit',
+    destination: 'Tokyo, Japan',
+    country: 'Japan',
+    startDate: '2026-10-10',
+    endDate: '2026-10-18',
+    budget: 4800,
+    currency: 'USD',
+    purpose: 'Keynote presentation and tier-1 APAC customer architectural reviews.',
+    status: 'Active',
+    perDiemDailyRate: 85,
+  },
+  {
+    id: 'trip-london-2026',
+    name: 'London FinTech & Banking Forum',
+    destination: 'London, United Kingdom',
+    country: 'United Kingdom',
+    startDate: '2026-09-14',
+    endDate: '2026-09-20',
+    budget: 3900,
+    currency: 'USD',
+    purpose: 'Open banking API standards committee and enterprise partner demos.',
+    status: 'Completed',
+    perDiemDailyRate: 95,
+  },
+  {
+    id: 'trip-sf-2026',
+    name: 'San Francisco Executive Briefing',
+    destination: 'San Francisco, CA',
+    country: 'United States',
+    startDate: '2026-11-02',
+    endDate: '2026-11-06',
+    budget: 2800,
+    currency: 'USD',
+    purpose: 'Annual board roadmap alignment and silicon valley venture summit.',
+    status: 'Upcoming',
+    perDiemDailyRate: 110,
+  },
+  {
+    id: 'trip-munich-2026',
+    name: 'Munich Mobility Expo',
+    destination: 'Munich, Germany',
+    country: 'Germany',
+    startDate: '2026-08-22',
+    endDate: '2026-08-27',
+    budget: 3400,
+    currency: 'USD',
+    purpose: 'Automotive telemetry integration meeting with engineering stakeholders.',
+    status: 'Completed',
+    perDiemDailyRate: 90,
+  }
+];
+
+export const INITIAL_EXPENSES: ExpenseItem[] = [
+  {
+    id: 'exp-1',
+    merchant: 'All Nippon Airways (ANA)',
+    date: '2026-10-09',
+    amount: 1420.50,
+    currency: 'USD',
+    convertedAmount: 1420.50,
+    taxAmount: 135.20,
+    category: 'Flights',
+    paymentMethod: 'Corporate Card',
+    status: 'Approved',
+    tripId: 'trip-tokyo-2026',
+    notes: 'Direct Flight SFO -> HND (Economy Flex + Baggage Allowance)',
+    lineItems: [
+      { description: 'Roundtrip Transpacific Flight', quantity: 1, price: 1290.00 },
+      { description: 'International Security & Fuel Surcharge', quantity: 1, price: 95.50 },
+      { description: 'Seat Selection (Extra Legroom)', quantity: 1, price: 35.00 }
+    ],
+    receiptName: 'ana_e-ticket_oct2026.pdf',
+    policyFlags: [],
+    attendees: 'Poornesh (Self)',
+    createdAt: '2026-10-09T08:15:00Z',
+    verifiedByAI: true
+  },
+  {
+    id: 'exp-2',
+    merchant: 'Grand Hyatt Tokyo - Roppongi',
+    date: '2026-10-12',
+    amount: 98400,
+    currency: 'JPY',
+    convertedAmount: 649.44, // 98,400 * 0.0066
+    taxAmount: 9840,
+    category: 'Lodging',
+    paymentMethod: 'Corporate Card',
+    status: 'Submitted',
+    tripId: 'trip-tokyo-2026',
+    notes: '3 Nights Club King Room, includes corporate high-speed Wi-Fi.',
+    lineItems: [
+      { description: 'Room Rate (3 nights x ¥28,000)', quantity: 3, price: 84000 },
+      { description: 'Local Accommodation Tax & VAT', quantity: 1, price: 14400 }
+    ],
+    receiptName: 'hyatt_folio_7781.pdf',
+    policyFlags: [],
+    createdAt: '2026-10-12T10:40:00Z',
+    verifiedByAI: true
+  },
+  {
+    id: 'exp-3',
+    merchant: 'Nihonbashi Sukiyabashi Dining',
+    date: '2026-10-13',
+    amount: 32400,
+    currency: 'JPY',
+    convertedAmount: 213.84,
+    taxAmount: 2945,
+    category: 'Meals & Entertainment',
+    paymentMethod: 'Corporate Card',
+    status: 'Flagged',
+    tripId: 'trip-tokyo-2026',
+    notes: 'Working dinner with NTT Data VP of Architecture & Enterprise Lead.',
+    lineItems: [
+      { description: 'Kaiseki Chef Tasting (3 persons)', quantity: 3, price: 27000 },
+      { description: 'Beverages & Green Tea', quantity: 1, price: 5400 }
+    ],
+    receiptName: 'sukiyabashi_dinner_receipt.jpg',
+    policyFlags: ['Exceeds single attendee meal cap ($70/person) - Requires Manager Justification'],
+    attendees: 'Poornesh (Host), Kenji Sato (NTT), Yumi Tanaka (NTT)',
+    createdAt: '2026-10-13T14:20:00Z',
+    verifiedByAI: true
+  },
+  {
+    id: 'exp-4',
+    merchant: 'Tokyo Metro & Narita Skyliner',
+    date: '2026-10-10',
+    amount: 3800,
+    currency: 'JPY',
+    convertedAmount: 25.08,
+    taxAmount: 345,
+    category: 'Ground Transport',
+    paymentMethod: 'Personal Card',
+    status: 'Approved',
+    tripId: 'trip-tokyo-2026',
+    notes: 'Airport express transfer to downtown Tokyo conference district.',
+    lineItems: [
+      { description: 'Narita Skyliner Express Ticket', quantity: 1, price: 2570 },
+      { description: 'Pasmo IC transit top-up', quantity: 1, price: 1230 }
+    ],
+    receiptName: 'keisei_skyliner_slip.png',
+    policyFlags: [],
+    createdAt: '2026-10-10T12:00:00Z',
+    verifiedByAI: true
+  },
+  {
+    id: 'exp-5',
+    merchant: 'Heathrow Express & Black Cab',
+    date: '2026-09-15',
+    amount: 68.50,
+    currency: 'GBP',
+    convertedAmount: 87.68,
+    taxAmount: 11.40,
+    category: 'Ground Transport',
+    paymentMethod: 'Corporate Card',
+    status: 'Reimbursed',
+    tripId: 'trip-london-2026',
+    notes: 'Transit between LHR Terminal 5 and City of London hotel.',
+    lineItems: [
+      { description: 'Heathrow Express Business Ticket', quantity: 1, price: 32.00 },
+      { description: 'London Licensed Black Cab', quantity: 1, price: 36.50 }
+    ],
+    receiptName: 'lhr_transit_summary.pdf',
+    policyFlags: [],
+    createdAt: '2026-09-15T18:30:00Z',
+    verifiedByAI: true
+  },
+  {
+    id: 'exp-6',
+    merchant: 'The Hoxton Holborn',
+    date: '2026-09-18',
+    amount: 740.00,
+    currency: 'GBP',
+    convertedAmount: 947.20,
+    taxAmount: 123.33,
+    category: 'Lodging',
+    paymentMethod: 'Corporate Card',
+    status: 'Reimbursed',
+    tripId: 'trip-london-2026',
+    notes: '3 Nights Cozy room for London FinTech Conference.',
+    lineItems: [
+      { description: 'Standard King Room (3 nights)', quantity: 3, price: 616.67 },
+      { description: 'UK VAT @ 20%', quantity: 1, price: 123.33 }
+    ],
+    receiptName: 'hoxton_london_invoice.pdf',
+    policyFlags: [],
+    createdAt: '2026-09-18T09:12:00Z',
+    verifiedByAI: true
+  },
+  {
+    id: 'exp-7',
+    merchant: 'Highway Mileage - Client Site Inspection',
+    date: '2026-09-22',
+    amount: 124.62,
+    currency: 'USD',
+    convertedAmount: 124.62,
+    taxAmount: 0,
+    category: 'Mileage',
+    paymentMethod: 'Personal Card',
+    status: 'Approved',
+    tripId: 'trip-sf-2026',
+    notes: 'Driven 186 miles round trip to Silicon Valley data center installation.',
+    lineItems: [
+      { description: 'Business Mileage: 186 miles @ $0.67/mile (IRS 2026 Standard)', quantity: 186, price: 0.67 }
+    ],
+    mileage: {
+      origin: 'San Francisco HQ (Market St)',
+      destination: 'San Jose Equinix SV5 Colocation',
+      distanceMiles: 186,
+      ratePerMile: 0.67,
+      isRoundTrip: true,
+      vehicleType: 'Personal Vehicle',
+      purpose: 'Emergency server rack switchboard commissioning and latency testing'
+    },
+    policyFlags: [],
+    createdAt: '2026-09-22T17:45:00Z',
+    verifiedByAI: true
+  },
+  {
+    id: 'exp-8',
+    merchant: 'Bavarian Motor Hallen Hospitality',
+    date: '2026-08-25',
+    amount: 185.00,
+    currency: 'EUR',
+    convertedAmount: 199.80,
+    taxAmount: 29.54,
+    category: 'Meals & Entertainment',
+    paymentMethod: 'Corporate Card',
+    status: 'Reimbursed',
+    tripId: 'trip-munich-2026',
+    notes: 'Dinner with European telematics OEM team.',
+    lineItems: [
+      { description: 'Group Dinner Platter (4 guests)', quantity: 1, price: 145.00 },
+      { description: 'Mineral Water & Artisan Cider', quantity: 1, price: 40.00 }
+    ],
+    receiptName: 'munich_dinner_receipt.pdf',
+    policyFlags: [],
+    attendees: 'Poornesh, Hans Becker, Clara Müller, Lukas Weber',
+    createdAt: '2026-08-25T20:10:00Z',
+    verifiedByAI: true
+  }
+];
+
+export const DEFAULT_POLICY_RULE: PolicyRule = {
+  maxMealPerPerson: 75,
+  requireReceiptThreshold: 25,
+  flightAdvanceBookingDays: 14,
+  flightMaxClass: 'Economy',
+  alcoholItemizationRequired: true,
+  flagWeekendTransactions: true,
+};
+
+export const SAMPLE_RECEIPT_PRESETS = [
+  {
+    name: 'Airline E-Ticket (Skyline Express)',
+    merchant: 'Skyline Airways Int.',
+    date: '2026-10-14',
+    totalAmount: 584.20,
+    currency: 'USD',
+    taxAmount: 48.70,
+    category: 'Flights',
+    paymentMethod: 'Corporate Card',
+    notes: 'Direct Flight: SeaTac to San Francisco Int.',
+    lineItems: [
+      { description: 'Main Cabin Comfort Fare', quantity: 1, price: 520.00 },
+      { description: 'Federal Aviation Security Fee', quantity: 1, price: 28.50 },
+      { description: 'Checked Baggage (1 item)', quantity: 1, price: 35.70 },
+    ],
+    policyNotes: 'Fully compliant with domestic travel policy (Economy class, >14 days booked).',
+  },
+  {
+    name: 'Hotel Folio (Marunouchi Business Hotel)',
+    merchant: 'Marunouchi Imperial Hotel Tokyo',
+    date: '2026-10-15',
+    totalAmount: 46500,
+    currency: 'JPY',
+    taxAmount: 4227,
+    category: 'Lodging',
+    paymentMethod: 'Corporate Card',
+    notes: '2 Nights Executive Room with breakfast included.',
+    lineItems: [
+      { description: 'Deluxe Room Charge (2 nights)', quantity: 2, price: 21000 },
+      { description: 'Tokyo Metropolitan Hotel Tax', quantity: 1, price: 4500 },
+    ],
+    policyNotes: 'Compliant. Within Tokyo high-cost metro nightly allowance ($220/night).',
+  },
+  {
+    name: 'Client Working Lunch (Le Jardin Bistro)',
+    merchant: 'Le Jardin Bistro & Espresso',
+    date: '2026-10-16',
+    totalAmount: 112.50,
+    currency: 'EUR',
+    taxAmount: 18.75,
+    category: 'Meals & Entertainment',
+    paymentMethod: 'Corporate Card',
+    notes: 'Q4 Product Roadmap Discussion with European distributor leads.',
+    lineItems: [
+      { description: 'Prix Fixe Business Lunch (2 covers)', quantity: 2, price: 48.00 },
+      { description: 'San Pellegrino Sparkling 750ml', quantity: 2, price: 8.25 },
+    ],
+    policyNotes: 'Compliant ($56/person vs $75 cap). 2 Attendees registered.',
+  },
+  {
+    name: 'Airport Rideshare (Uber Black / Comfort)',
+    merchant: 'Uber Technologies, Inc.',
+    date: '2026-10-17',
+    totalAmount: 48.60,
+    currency: 'USD',
+    taxAmount: 3.85,
+    category: 'Ground Transport',
+    paymentMethod: 'Personal Card',
+    notes: 'Direct airport transit to hotel during peak rain hours.',
+    lineItems: [
+      { description: 'Uber Comfort Fare - Terminal 2 to Financial District', quantity: 1, price: 42.60 },
+      { description: 'Driver Gratuity (15%)', quantity: 1, price: 6.00 },
+    ],
+    policyNotes: 'Compliant ground transit receipt.',
+  }
+];
